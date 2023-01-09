@@ -1,0 +1,136 @@
+\DocumentMetadata{
+	pdfstandard=A-3u,
+	pdfversion=1.7,
+}
+
+\documentclass[12pt]{article}
+
+% ======================================================== %
+% --------------------- PDF Metadata --------------------- %
+% ======================================================== %
+
+\usepackage{etoolbox}
+\usepackage{iftex}
+
+\ifLuaTeX
+	\pdfvariable suppressoptionalinfo \numexpr
+		0
+	+   1   % PTEX.FullBanner
+	\relax
+\else
+	\pdfsuppressptexinfo -1
+\fi
+
+% ======================================================== %
+% ----------------- Page and Font Setup ------------------ %
+% ======================================================== %
+
+\usepackage{standalone}
+\usepackage{geometry}
+
+\geometry{
+	paper=a4paper,
+	top=2.5cm,
+	bottom=3cm, 
+	left=2.5cm,
+	right=2.5cm,
+	headheight=14pt,
+	footskip=1.5cm,
+	headsep=1.2cm,
+}
+
+\input{Preamble/TypeSettings}
+
+\linespread{1.2}
+\emergencystretch=1em
+
+% ======================================================== %
+% ----- Numbering, References, Links, and Citations ------ %
+% ======================================================== %
+
+\usepackage{amsthm,thmtools}
+\usepackage{enumitem}
+\usepackage[style=Preamble/BibStyle/LocalBibStyle]{biblatex}
+\usepackage[numbered]{bookmark}
+\usepackage{cleveref}
+
+\definecolor[named]{LinkColor}{named}{blue}
+
+\hypersetup{
+	pdfinfo={
+		Title={Document Title},
+		Author={Author},
+	},
+	%
+	pdfview={XYZ null null null},
+	%
+	pdfdisplaydoctitle=true,
+	pdftoolbar=true,
+	pdfmenubar=true,
+	pdfpagemode=UseNone,
+	%
+	colorlinks = true,
+	linkcolor=LinkColor,
+	citecolor=LinkColor,
+	urlcolor=LinkColor,
+	%
+	linktoc=page,
+}
+
+\crefdefaultlabelformat{#2{\upshape #1}#3}
+\crefformat{equation}{Equation~\upshape(#2{#1}#3)}
+\Crefformat{equation}{Equation~\upshape(#2{#1}#3)}
+\labelcrefformat{equation}{\upshape(#2{#1}#3)}
+
+\input{Preamble/TheoremSettings.tex}
+
+\newcommand{\subcref}[2][]{\ifblank{#1}{\labelcref{#2}}{\cref{#1}\labelcref{#2}}}
+\newcommand{\subCref}[2][]{\ifblank{#1}{\labelcref{#2}}{\Cref{#1}\labelcref{#2}}}
+
+\numberwithin{equation}{section}
+
+% ======================================================== %
+% ------------- Misc. Packages and Macros ---------------- %
+% ======================================================== %
+
+\usepackage{xparse}
+\usepackage{xpunctuate}
+%\usepackage{mathtools} loaded previously
+\usepackage[all, error]{onlyamsmath}
+\usepackage{derivative}
+\usepackage{tensor}
+\usepackage{mleftright}
+\usepackage{tikz-cd}
+
+\input{Preamble/STIX-Arrowheads.def}
+\tikzcdset{
+	arrows = {line width = 0.068em},
+	arrow style = tikz,
+	diagrams={>={stix}}
+}
+
+\input{Preamble/Commands.tex}
+
+% ======================================================== %
+% ------------- Document Specific Commands --------------- %
+% ======================================================== %
+
+
+
+% ======================================================== %
+% ----------------------- Document ----------------------- %
+% ======================================================== %
+
+%\addbibresource{Bibliography/Bibliography.bib}
+
+\title{Document Title}
+\author{Author}
+
+\begin{document}
+	%\maketitle
+	%\tableofcontents
+	
+	\include{Sections/Section.tex}
+	
+	%\printbibliography[heading=bibintoc, title={References}]
+\end{document}

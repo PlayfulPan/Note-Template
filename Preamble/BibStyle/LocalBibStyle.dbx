@@ -1,0 +1,3 @@
+\ProvidesFile{LocalBibStyle.dbx}
+
+\DeclareDatamodelFields[type=field, datatype=literal]{collaboration}
