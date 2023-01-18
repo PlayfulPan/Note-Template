@@ -101,6 +101,8 @@
 \usepackage{tensor}
 \usepackage{mleftright}
 \usepackage{tikz-cd}
+\usepackage{orcidlink}
+\usepackage{hep-title}
 
 \input{Preamble/STIX-Arrowheads.def}
 \tikzcdset{
@@ -123,14 +125,21 @@
 
 %\addbibresource{Bibliography/Bibliography.bib}
 
+\fancyhead[L]{\vspace*{2em}\\\footnotesize\textsc{last updated: janaury 18, 2023}}
+
 \title{Document Title}
 \author{Author}
+\affil{Affilation}
+\date{}
 
 \begin{document}
-	%\maketitle
+	\maketitle
+	\thispagestyle{fancy}
+	\hrule
 	%\tableofcontents
-	
+
+	\pagestyle{plain}
 	\include{Sections/Section.tex}
-	
+
 	%\printbibliography[heading=bibintoc, title={References}]
 \end{document}
