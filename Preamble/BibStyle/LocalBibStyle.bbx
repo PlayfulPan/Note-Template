@@ -71,16 +71,41 @@
   }%
 }
 
+\renewbibmacro*{doi+eprint+url}{%
+  \iftoggle{bbx:doi}
+  {\printfield{doi}}
+  {}%
+  \newunit\newblock
+  \iftoggle{bbx:eprint}
+  {\usebibmacro{eprint}}
+  {}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+  {\usebibmacro{url}}
+  {}}
+
 \renewcommand*{\subtitlepunct}{\addcolon\space}
 \DeclarePunctuationPairs{colon}{*}
 
-\DeclareFieldFormat[article,book,mvbook,misc]{titlecase}{#1}
+\DeclareFieldFormat[article,book,mvbook,misc,online]{titlecase}{#1}
 \DeclareFieldFormat[book,mvbook]{edition}{\ifinteger{#1}{\mkbibordedition{#1}}{#1}~ed.\@}
+
+\renewbibmacro*{publisher+location+date}{%
+  \setunit{\addspace}%
+  \printtext[parens]{%
+    \printlist{publisher}%
+    \newunit
+    \printlist{location}%
+    \newunit
+    \printfield[noformat]{year}%
+  }%
+  \newunit
+}
 
 \AtEveryBibitem{
   \ifentrytype{mvbook}{
     \clearname{translator}%
-    \clearname{editor}%
+    %\clearname{editor}%
     \clearname{editora}%
     \clearname{editorb}%
     \clearname{editorc}%
@@ -90,7 +115,7 @@
   }{}%
   \ifentrytype{book}{
     \clearname{translator}%
-    \clearname{editor}%
+    %\clearname{editor}%
     \clearname{editora}%
     \clearname{editorb}%
     \clearname{editorc}%
@@ -119,11 +144,15 @@
   \newunit\newblock
   \printlist{organization}%
   \newunit\newblock
-  \usebibmacro{date}%
+  \printfield{pubstate}%
+  \setunit{\addspace}
+  \printfield{year}%
+  \setunit*{\addspace}
+  \iftoggle{bbx:eprint}
+  {\usebibmacro{eprint}}%
+  {}%
   \newunit\newblock
-  \usebibmacro{doi+eprint+url}%
-  \newunit\newblock
-  \usebibmacro{addendum+pubstate}%
+  \printfield{addendum}%
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{pageref}%
   \newunit\newblock
