@@ -3,6 +3,7 @@
 % ======================================================== %
 
 \newcommand{\ie}{i.e\xperiodcomma}
+\newcommand{\cf}{cf\xperiod}
 \newcommand{\eg}{e.g\xperiodcomma}
 \newcommand{\etal}{et~al\xperiod}
 \newcommand{\etc}{etc\xperiod}
@@ -21,6 +22,7 @@
 \newcommand{\eqdef}{\mathrel{= \! \vcentcolon}}
 
 \newcommand{\blankvar}[1][1ex]{{\mathmakebox[#1][c]{\cdot}}} % Placeholder Dot
+\newcommand{\hodge}{\mathord{\vcenter{\hbox{\(\scriptstyle \star\)}}}} % Hodge Star
 
 \newcommand{\Naturals}[1][]{\ifblank{#1}{\mathbb{N}}{\mathbb{N}^{#1}}}
 \newcommand{\Integers}[1][]{\ifblank{#1}{\mathbb{Z}}{\mathbb{Z}^{#1}}}
@@ -30,8 +32,6 @@
 
 \newcommand{\mathp}{\mathclose{\,\text{.}}}% Text period in math
 \newcommand{\mathc}{\mathclose{\,\text{,}}}% Text Comma in math
-
-\newcommand{\hodge}{\mathop{\vcenter{\hbox{\(\scriptstyle \star\)}}}}% Hodge Star
 
 % ======================================================== %
 % ------------------ Physical Constants ------------------ %
@@ -48,6 +48,8 @@
 \newcommand{\func}[4][\to]{#2\mathpunct{:} #3 #1 #4} % Function Definition
 \newcommand{\setcomp}[1]{{#1}^{c}} %Set Compliments
 \newcommand{\vb}[1]{{\symbf{#1}}}
+\newcommand{\transpose}[1]{#1^{\symsf{T}}}
+\newcommand{\chargeconj}[1]{#1^{\symsf{c}}}
 
 \providecommand\given{}
 \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\allowbreak\nonscript\:\mathopen{}}
@@ -63,7 +65,8 @@
 \newcommand{\fbrack}[1]{\INTERNALbrack*{#1}}
 
 \DeclarePairedDelimiterX\commutator[2]{[}{]}{\ifblank{#1}{\blankvar[1.2ex]}{#1}\ifblank{#2}{{,}\blankvar[1.2ex]}{,#2}} % Commutator
-\DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{\ifblank{#2}{\blankvar[1.2ex]}{#2}\ifblank{#1}{{,}\blankvar[1.2ex]}{,#1}} % Inner Product
+\DeclarePairedDelimiterX\acommutator[2]{\{}{\}}{\ifblank{#1}{\blankvar[1.2ex]}{#1}\ifblank{#2}{{,}\blankvar[1.2ex]}{,#2}} % Anti-Commutator
+\DeclarePairedDelimiterX\innerp[2]{\langle}{\rangle}{\ifblank{#1}{\blankvar[1.2ex]}{#1}\ifblank{#2}{{,}\blankvar[1.2ex]}{,#2}} % Inner Product
 \DeclarePairedDelimiterX\norm[1]{\lVert}{\rVert}{\ifblank{#1}{\blankvar}{#1}} % Vector Norm
 \DeclarePairedDelimiterX\abs[1]{\lvert}{\rvert}{\ifblank{#1}{\blankvar}{#1}} % Absolute Value
 \DeclarePairedDelimiterX\eval[1]{.}{\rvert}{#1} % Evaluated at
@@ -77,7 +80,7 @@
 \DeclarePairedDelimiter\bra{\langle}{\rvert}
 \DeclarePairedDelimiterX\braket[2]{\langle}{\rangle}{#1 \delimsize\vert\mathopen{}#2}
 \DeclarePairedDelimiterX\ketbra[2]{\lvert}{\rvert}{#1\delimsize\rangle\delimsize\langle\mathopen{}#2}
-\DeclarePairedDelimiterX\mel[3]{\langle}{\rangle}{#1\delimsize\vert\mathopen{}\,#2\,\delimsize\vert\mathopen{}#3}
+\DeclarePairedDelimiterX\mel[3]{\langle}{\rangle}{#1\delimsize\vert\mathopen{}#2\delimsize\vert\mathopen{}#3}
 \DeclarePairedDelimiterX\expval[1]{\langle}{\rangle}{#1}
 
 % ======================================================== %
