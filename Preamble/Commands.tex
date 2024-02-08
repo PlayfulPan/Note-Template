@@ -46,10 +46,25 @@
 % ======================================================== %
 
 \newcommand{\func}[4][\to]{#2\mathpunct{:} #3 #1 #4} % Function Definition
-\newcommand{\setcomp}[1]{{#1}^{c}} %Set Compliments
-\newcommand{\vb}[1]{{\symbf{#1}}}
-\newcommand{\transpose}[1]{#1^{\symsf{T}}}
-\newcommand{\chargeconj}[1]{#1^{\symsf{c}}}
+
+\NewDocumentCommand\conj{sm}{% Complex Conjugate
+    \IfBooleanTF#1
+    {\overline{#2}}
+    {\overbar{#2}}
+}
+
+\NewDocumentCommand\transpose{m}{#1^{\symsf{T}}} %Transpose
+\NewDocumentCommand\chargeconj{m}{#1^{\symsf{c}}} %Charge Conjugate
+\NewDocumentCommand\conjtrans{m}{#1^{\dagger}} % Conjugate Tranpose
+\NewDocumentCommand\inverse{m}{#1^{-1}} % Inverse
+
+\NewDocumentCommand\Cl{s}{% Clifford Algebra
+    \IfBooleanTF#1
+    {\mathbb{C}\mathrm{l}}
+    {\mathrm{Cl}}
+}
+
+
 
 \providecommand\given{}
 \newcommand\SetSymbol[1][]{\nonscript\:#1\vert\allowbreak\nonscript\:\mathopen{}}
@@ -90,3 +105,81 @@
 \DeclareDifferential{\xdif}{\updbar} %Inexact Differential
 \DeclareDifferential{\pathdif}{\mathcal{D}} % Functional Measure
 \DeclareDerivative{\fdv}{\delta} % Functional Derivative
+\derivset{\pdv}[delims-eval=.|]
+
+\NewDocumentCommand\lieder{mm}{\mathcal{L}_{#1}#2}
+
+\NewDocumentCommand\exder{som}{% Exterior Derivative, starred gives codifferential, optional argument gives connection subscript
+    \IfBooleanTF{#1}
+    {
+        \IfNoValueTF{#2}
+        {
+            \mathrm{d}\indices{^{\ast}}#3
+        }
+        {
+            \mathrm{d}\indices*{^{\ast}_{\scriptscriptstyle (#2)}}#3
+        }
+    }
+    {
+        \IfNoValueTF{#2}
+        {
+            \mathrm{d}#3
+        }
+        {
+            \mathrm{d}\indices{_{\scriptscriptstyle (#2)}}#3
+        }
+    }
+}
+\NewDocumentCommand\covder{som}{% Covariant Derivative, starred gives capital D, optional argument gives connection superscriptscript, mandatory argument is subscript
+    \IfBooleanTF{#1}
+    {
+        \IfNoValueTF{#2}
+        {
+            D\indices{_{\!#3}}
+        }
+        {
+            D\indices*{^{\scriptscriptstyle(#2)}_{\!#3}}
+        }
+    }
+    {
+        \IfNoValueTF{#2}
+        {
+            \nabla\indices{_{\!#3}}
+        }
+        {
+            \nabla\indices*{^{\scriptscriptstyle(#2)}_{\!#3}}
+        }
+    }
+}
+
+
+
+% ======================================================== %
+% ------------------- Dotted Letters --------------------- %
+% ======================================================== %
+
+\newcommand{\dalpha}{{\dot{\alpha}}}
+\newcommand{\dbeta}{{\dot{\beta}}}
+\newcommand{\dgamma}{{\dot{\gamma}}}
+\newcommand{\ddelta}{{\dot{\delta}}}
+\newcommand{\depsilon}{{\dot{\epsilon}}}
+\newcommand{\dzeta}{{\dot{\zeta}}}
+\newcommand{\deta}{{\dot{\eta}}}
+\newcommand{\dtheta}{{\dot{\theta}}}
+\newcommand{\diota}{{\dot{\iota}}}
+\newcommand{\dkappa}{{\dot{\kappa}}}
+\newcommand{\dlambda}{{\dot{\lambda}}}
+\newcommand{\dmu}{{\dot{\mu}}}
+\newcommand{\dnu}{{\dot{\nu}}}
+\newcommand{\dxi}{{\dot{\xi}}}
+\newcommand{\dpi}{{\dot{\pi}}}
+\newcommand{\drho}{{\dot{\rho}}}
+\newcommand{\dsigma}{{\dot{\sigma}}}
+\newcommand{\dtau}{{\dot{\tau}}}
+\newcommand{\dupsilon}{{\dot{\upsilon}}}
+\newcommand{\dphi}{{\dot{\phi}}}
+\newcommand{\dchi}{{\dot{\chi}}}
+\newcommand{\dpsi}{{\dot{\psi}}}
+\newcommand{\domega}{{\dot{\omega}}}
+
+\newcommand{\dwedge}{\mathbin{\dot{\wedge}}}
