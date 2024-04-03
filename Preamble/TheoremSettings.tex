@@ -2,121 +2,261 @@
 % -------------------- Theorem Setup --------------------- %
 % ======================================================== %
 
-
-%These patch the commands for the theorem environments to allow for margin changes (Cleveref redefines the commands, if there wasn't cleveref, the command to patch would be \@thm)
+%------------------
+% Setup
+%------------------
 
 \makeatletter
 
-\patchcmd{\cref@thmoptarg}{\trivlist}{\list{}{\leftmargin=\thm@leftmargin\rightmargin=\thm@rightmargin}}{}{} 
-\patchcmd{\cref@thmnoarg}{\trivlist}{\list{}{\leftmargin=\thm@leftmargin\rightmargin=\thm@rightmargin}}{}{}
-\patchcmd{\@endtheorem}{\endtrivlist}{\endlist}{}{}
+\definecolor{DefinitionColor}{HTML}{006400}
+\NewTcbTheorem[number within=section, crefname={definition}{definitions}]{Definition}{Definition}{
+	enhanced,
+	breakable,
+    before skip=4mm,
+    after skip=1cm,
+    colback=DefinitionColor!5,
+    colframe=DefinitionColor,
+    boxrule=0.5mm,
+    attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+    varwidth boxed title*=-3cm,
+    separator sign none,
+    description delimiters parenthesis,
+    boxed title style={
+        frame code={
+            \path[fill=tcbcolback!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            
+            \path[left color=DefinitionColor!60!black,right color=DefinitionColor!60!black,middle color=DefinitionColor!80!black]
+            ([xshift=-2mm]frame.north west) --
+            ([xshift=2mm]frame.north east)[rounded corners=1mm] --
+            ([xshift=1mm,yshift=-1mm]frame.north east) --
+            (frame.south east) --
+            (frame.south west) --
+            ([xshift=-1mm,yshift=-1mm]frame.north west)
+            [sharp corners]--
+            cycle;
+        },
+        interior engine=empty,
+    },
+    fonttitle = \bfseries\sffamily,
+	description font = \mdseries,
+    title={#2},
+    #1
+}{def}
 
-\newlength{\thm@leftmargin}% Default parameters for theorem environments
-\setlength{\thm@leftmargin}{\parindent}
 
-\newlength{\thm@rightmargin}
-\setlength{\thm@rightmargin}{0pt}
-
-\newlength{\thm@parindent}
-\setlength{\thm@parindent}{\parindent}
-
-\newlength{\thm@parskip}
-\setlength{\thm@parskip}{\parskip}
-
-\newlength{\thm@postheadspace}
-\setlength{\thm@postheadspace}{1ex}
-
-\newlength{\thm@spacing}
-\setlength{\thm@spacing}{2\topsep}
-
-\newcommand{\xdeclaretheorem}[4][]{% Declare a theorem with custom margins
-    \newenvironment{#4}
-    {\thm@leftmargin=#2\relax\thm@rightmargin=#3\relax\begin{#4INNER}}
-    {\end{#4INNER}}%
-    \declaretheorem[#1]{#4INNER}%
+\definecolor{TheoremColor}{HTML}{00007B}
+\newtcbtheorem[use counter from=Definition, crefname={theorem}{theorems}]{Theorem}{Theorem}
+{%
+	enhanced,
+	breakable,
+	colback=TheoremColor!5,
+	frame hidden,
+	boxrule = 0sp,
+	borderline west = {2pt}{0pt}{TheoremColor},
+	sharp corners,
+	detach title,
+	before upper = \tcbtitle\par\smallskip\itshape,
+	coltitle = TheoremColor,
+	fonttitle = \bfseries\sffamily,
+	description font = \mdseries,
+	separator sign none,
+    description delimiters parenthesis,
+	segmentation style={solid, TheoremColor},
 }
+{th}
 
-% ======================================================== %
-% -------------------- Theorem Styles -------------------- %
-% ======================================================== %
-
-\declaretheoremstyle[% Italic style
-    spaceabove=\thm@spacing,
-    spacebelow=\thm@spacing,
-    notefont=\bfseries,
-    postheadspace=\thm@postheadspace,
-    bodyfont=\setlength{\parindent}{\thm@parindent}\setlength{\parskip}{\thm@parskip}\itshape,
-]{italic}
-
-\declaretheoremstyle[% Upright style
-    spaceabove=\thm@spacing,
-    spacebelow=\thm@spacing,
-    notefont=\bfseries,
-    postheadspace=\thm@postheadspace,
-    bodyfont=\setlength{\parindent}{\thm@parindent}\setlength{\parskip}{\thm@parskip}\upshape
-]{upright}
-
-\declaretheoremstyle[% Proof Style
-    spaceabove=\thm@spacing,
-    spacebelow=\thm@spacing,
-    headfont=\mdseries\scshape,
-    notefont=\mdseries\scshape,
-    notebraces={\mbox{}\mbox{}},
-    postheadspace=\thm@postheadspace,
-    bodyfont=\setlength{\parindent}{\thm@parindent}\setlength{\parskip}{\thm@parskip}\upshape
-]{myProof}
+\definecolor{PropositionColor}{HTML}{4682B4}
+\newtcbtheorem[use counter from=Definition, crefname={proposition}{propositions}]{Proposition}{Proposition}
+{%
+	enhanced,
+	breakable,
+	colback = PropositionColor!5,
+	frame hidden,
+	boxrule = 0sp,
+	borderline west = {2pt}{0pt}{PropositionColor},
+	sharp corners,
+	detach title,
+	before upper = \tcbtitle\par\smallskip\itshape,
+	coltitle = PropositionColor,
+	fonttitle = \bfseries\sffamily,
+	description font = \mdseries,
+	separator sign none,
+    description delimiters parenthesis,
+	segmentation style={solid, PropositionColor},
+}
+{prop}
 
 \providecommand{\qedsymbol}{}
-\renewcommand{\qedsymbol}{\raisebox{0.08em}{\ensuremath{\mdwhtsquare}}} %Sets the QED symbol
+\renewcommand{\qedsymbol}{\raisebox{0.08em}{\ensuremath{\mdwhtsquare}}}
 
+\renewtcolorbox{proof}[1][]{
+    enhanced,
+	breakable,
+    detach title,
+    frame hidden,
+    before upper = \tcbtitle~,
+    fonttitle = \bfseries\rmfamily,
+    coltitle = black,
+    title = Proof.,
+    after upper = \qed,
+    colback = white,
+    size = minimal,
+    #1,
+}
+
+\definecolor{SummaryColor}{HTML}{4B0082}
+\newtcolorbox{reference}[2][]{
+    enhanced,
+	breakable,
+    before skip=2mm,
+    after skip=2mm,
+    colback=SummaryColor!5,
+    colframe=SummaryColor,
+    boxrule=0.5mm,
+    attach boxed title to top left={xshift=1cm,yshift*=1mm-\tcboxedtitleheight},
+    varwidth boxed title*=-3cm,
+    boxed title style={
+        frame code={
+            \path[fill=tcbcolback!30!black]
+            ([yshift=-1mm,xshift=-1mm]frame.north west)
+            arc[start angle=0,end angle=180,radius=1mm]
+            ([yshift=-1mm,xshift=1mm]frame.north east)
+            arc[start angle=180,end angle=0,radius=1mm];
+            
+            \path[left color=SummaryColor!60!black,right color=SummaryColor!60!black,middle color=SummaryColor!80!black]
+            ([xshift=-2mm]frame.north west) --
+            ([xshift=2mm]frame.north east)[rounded corners=1mm] --
+            ([xshift=1mm,yshift=-1mm]frame.north east) --
+            (frame.south east) --
+            (frame.south west) --
+            ([xshift=-1mm,yshift=-1mm]frame.north west)
+            [sharp corners]--
+            cycle;
+        },
+        interior engine=empty,
+    },
+    fonttitle=\bfseries,
+    title={#2},
+	subtitle style={
+		enhanced,
+		colback=SummaryColor!5,
+		colupper=black,
+	},
+    #1
+}
+
+\newtcolorbox{summary}[1][]{
+    enhanced,
+    title=My title,
+    colframe=blue!50!black,
+    colback=blue!10!white,
+    colbacktitle=blue!5!yellow!10!white,
+    fonttitle=\bfseries,
+    coltitle=black,
+    attach boxed title to top center={
+        yshift=-0.25mm-\tcboxedtitleheight/2,
+        yshifttext=2mm-\tcboxedtitleheight/2
+        },
+    boxed title style={
+        boxrule=0.5mm,
+        frame code={
+            \path[tcb fill frame] ([xshift=-4mm]frame.west) --
+            (frame.north west) -- 
+            (frame.north east) -- 
+            ([xshift=4mm]frame.east) --
+            (frame.south east) --
+            (frame.south west) -- 
+            cycle;
+            },
+        interior code={
+            \path[tcb fill interior] ([xshift=-2mm]interior.west) --
+            (interior.north west) --
+            (interior.north east) --
+            ([xshift=2mm]interior.east) --
+            (interior.south east) --
+            (interior.south west) -- cycle;
+            }
+        },
+    #1,
+}
+
+
+
+
+\usetikzlibrary{arrows,calc,shadows.blur}
+\newtcolorbox{note}[1][]{
+	enhanced jigsaw,
+	colback=gray!20!white,
+	colframe=gray!80!black,
+	boxrule=1pt,
+	title=Note,
+    fonttitle=\bfseries,
+	halign title=flush center,
+	coltitle=black,
+	breakable,
+	drop shadow=black!50!white,
+	attach boxed title to top left={
+        xshift=1cm,
+        yshift=-\tcboxedtitleheight/2,
+        yshifttext=-\tcboxedtitleheight/2
+    },
+	minipage boxed title=1.5cm,
+	boxed title style={
+			colback=white,
+			size=fbox,
+			boxrule=1pt,
+			boxsep=2pt,
+			underlay={
+					\coordinate (dotA) at ($(interior.west) + (-0.5pt,0)$);
+					\coordinate (dotB) at ($(interior.east) + (0.5pt,0)$);
+					\begin{scope}
+						\clip (interior.north west) rectangle ([xshift=3ex]interior.east);
+						\filldraw [white, blur shadow={shadow opacity=60, shadow yshift=-.75ex}, rounded corners=2pt] (interior.north west) rectangle (interior.south east);
+					\end{scope}
+					\begin{scope}[gray!80!black]
+						\fill (dotA) circle (2pt);
+						\fill (dotB) circle (2pt);
+					\end{scope}
+				},
+		},
+	#1,
+}
+
+
+\definecolor{NotationColor}{HTML}{6F4E37}
+
+
+\newtcolorbox{notation}[1][]{
+    enhanced,
+	breakable,
+	colback=gray!20!white,
+	colframe=NotationColor,
+	attach boxed title to top left={yshift*=-\tcboxedtitleheight},
+	fonttitle=\bfseries,
+	title={Context and Notation},
+	boxed title size=title,
+	boxed title style={
+        sharp corners,
+        rounded corners=northwest,
+        colback=tcbcolframe,
+        boxrule=0pt,
+	},
+	underlay boxed title={
+		\path[fill=tcbcolframe]
+        (title.south west) --
+        (title.south east)
+		to[out=0, in=180]
+        ([xshift=5mm]title.east) --
+        (title.center-|frame.east)
+        [rounded corners=\kvtcb@arc] |-
+        (frame.north) -|
+        cycle;
+	},
+    #1,
+}
 \makeatother
 
-% ======================================================== %
-% ----------------- Theorem Declarations ----------------- %
-% ======================================================== %
-
-% ------ Theorem  ------ %
-\declaretheorem[style=italic, parent=section, numberwithin=section, refname={Theorem, Theorems}]{theorem}
-\declaretheorem[style=italic, numbered=no, title=Theorem]{theorem*}
-
-% ------ Lemma ------ %
-\declaretheorem[style=italic, sibling=theorem, numberlike=theorem, refname={Lemma, Lemmas}]{lemma}
-\declaretheorem[style=italic, numbered=no, title=Lemma]{lemma*}
-
-% ------ Corollary ------ %
-
-\declaretheorem[style=italic, sibling=theorem, numberlike=theorem, refname={Corollary, Corollaries}]{corollary}
-\declaretheorem[style=italic, numbered=no, title=Corollary]{corollary*}
-
-% ------ Preposition ------ %
-\declaretheorem[style=italic, sibling=theorem, numberlike=theorem, refname={Proposition, Propositions}]{proposition}
-\declaretheorem[style=italic, numbered=no, title=Proposition]{proposition*}
-
-% ------ Definition ------ %
-\declaretheorem[style=upright, sibling=theorem, numberlike=theorem, refname={Definition, Definitions}]{definition}
-\declaretheorem[style=upright, numbered=no, title=Definition]{definition*}
-
-% ------ Remark ------ %
-\declaretheorem[style=upright, sibling=theorem, numberlike=theorem, refname={Remark, Remarks}]{remark}
-\declaretheorem[style=upright, numbered=no, title=Remark]{remark*}
-
-% ------ Example ------ %
-\declaretheorem[style=upright, sibling=theorem, numberlike=theorem, refname={Example, Examples}]{example}
-\declaretheorem[style=upright, numbered=no, title=Example]{example*}
-
-% ------ Claim ------ %
-\declaretheorem[style=italic, numbered=no, title=Claim]{claim}
-
-% ------ Proof ------ %
-\declaretheorem[style=myProof, numbered=no,prefoothook={\qed}, title=Proof]{myProof}
-\renewenvironment{proof}[1][]{\ifblank{#1}{\begin{myProof}}{\begin{myProof}[#1]}}{\end{myProof}}
-
-
-% ------ Problem Solution ------ %
-\xdeclaretheorem[style=italic, title=Problem, refname={Problem, Problems}]{0pt}{0pt}{problem}
-\declaretheorem[style=myProof, numbered=no, prefoothook={\qed}, title=Solution]{solution}
-
-% ------ Theorem Items ------ %
-\newlist{thmitems}{enumerate}{1}
-\setlist[thmitems]{label={\normalfont(\alph*)}, ref={\alph*}}
-\labelcrefformat{thmitemsi}{{\upshape(#2{#1}#3)}}
